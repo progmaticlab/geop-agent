@@ -1,4 +1,4 @@
-Hostname "localhost"
+Hostname "{{ vm_id }} {{ tenant_id }}"
 FQDNLookup true
 BaseDir "/var/lib/collectd"
 PluginDir "/usr/lib/collectd"
@@ -24,7 +24,7 @@ LoadPlugin swap
     LogLevel info
 </Plugin>
 <Plugin network>
-        Server {{ collectd_server }} {{ collectd_server_port }}
+        Server {{ telegraf_server }} {{ telegraf_server_port }}
 </Plugin>
 <Plugin cpu>
 	ReportByCpu true

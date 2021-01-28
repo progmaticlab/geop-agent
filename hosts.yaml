@@ -1,0 +1,20 @@
+all:
+  hosts:
+  children:
+    collectd:
+      hosts:
+        127.0.0.1:
+      vars:
+        ansible_connection: local
+        telegraf_server: '"localhost"'
+        telegraf_server_port: '"25826"'
+        vm_id: 'vm_id_'
+        tenant_id: 'tenant_id_'
+    telegraf:
+      hosts:
+        127.0.0.1
+      vars:
+        ansible_connection: local
+        influxdb_url: '"http://127.0.0.1:8086"'
+        collectd_url: '"udp://0.0.0.0:25826"'
+

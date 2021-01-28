@@ -1,0 +1,17 @@
+---
+
+- name: install collectd
+  package:
+    name: collectd
+    state: present
+
+- name: create collectd.conf
+  template:
+    src: collectd.j2
+    dest: /etc/collectd/collectd.conf
+
+- name: restart collectd
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: yes
+    name: collectd

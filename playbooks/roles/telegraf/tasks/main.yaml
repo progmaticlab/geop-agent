@@ -1,0 +1,46 @@
+---
+
+- name: install curl
+  package:
+    name: curl
+    state: present
+
+- name: get influxdb.key
+  shell: curl -s https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+
+- name: create influxdb.list
+  shell: echo "deb https://repos.influxdata.com/ubuntu focal stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+
+- name: Update and upgrade packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: 'yes'
+
+- name: install telegraf
+  package:
+    name: telegraf
+    state: present
+
+- name: create telegraf.conf
+  template:
+    src: roles/telegraf/templates/telegraf.j2
+    dest: /etc/telegraf/telegraf.conf
+
+- name: restart telegraf
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: yes
+    name: telegraf
+
+- name: install influxdb
+  package:
+    name: influxdb
+    state: present
+
+- name: restart influxdb
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: yes 
+    name: influxdb
+  
