@@ -2,6 +2,9 @@
 
 - name: setup telegraf
   hosts: all
+  vars:
+    influxdb_url: '"http://127.0.0.1:8086"'
+    collectd_url: '"udp://0.0.0.0:25826"'
   tasks:
 
   - name: install curl
@@ -27,8 +30,8 @@
       state: present
 
   - name: create telegraf.conf
-    copy:
-      src: roles/telegraf/templates/telegraf.conf
+    template:
+      src: roles/telegraf/templates/telegraf.j2
       dest: /etc/telegraf/telegraf.conf
 
   - name: restart telegraf
