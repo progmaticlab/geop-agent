@@ -6,12 +6,12 @@
 
 
 ```
-ansible-playbook --connection=local --inventory 127.0.0.1,  playbooks/install-collectd.yaml
+ansible-playbook playbooks/install-collectd.yaml -i hosts.yaml
 ```
 
 
 ## run telegraf playbook
 
 ```
-ansible-playbook --connection=local --inventory 127.0.0.1, playbooks/install-telegraf.yaml
+ansible-playbook playbooks/install-telegraf.yaml -i hosts.yaml
 ```
