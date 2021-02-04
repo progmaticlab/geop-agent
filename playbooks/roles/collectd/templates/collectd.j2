@@ -2,7 +2,7 @@ Hostname "{{ vm_id }} {{ tenant_id }}"
 FQDNLookup true
 BaseDir "/var/lib/collectd"
 PluginDir "/usr/lib/collectd"
-TypesDB "/usr/share/collectd/types.db" "/etc/collectd/my_types.db"
+TypesDB "/usr/share/collectd/types.db"
 
 LoadPlugin logfile
 LoadPlugin syslog
@@ -23,7 +23,16 @@ LoadPlugin python
     <Module vm_cpu>
         Path "/proc/stat" 
     </Module>
+    Import "vm_mem"
+    <Module vm_mem>
+        Path "/proc/meminfo"
+    </Module>
+    Import "vm_disk"
+    <Module vm_disk>
+        Path "/proc/mounts"
+    </Module>
 </Plugin>
+
 <Plugin logfile>
     LogLevel "info"
         File "/var/log/collectd.log"
@@ -35,6 +44,7 @@ LoadPlugin python
 <Plugin network>
         Server {{ telegraf_server }} {{ telegraf_server_port }}
 </Plugin>
+
 <Plugin cpu>
         ReportByCpu false
         ReportByState false

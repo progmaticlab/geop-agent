@@ -15,26 +15,88 @@
     src: collectd.j2
     dest: /etc/collectd/collectd.conf
 
+
 - name: create /opt/collectd_plugins
   ansible.builtin.file:
     path: /opt/collectd_plugins
     state: directory
     mode: '0755'
 
+- name: create /opt/collectd_plugins/dict
+  ansible.builtin.file:
+    path: /opt/collectd_plugins
+    state: directory
+    mode: '0755'
+
+- name: create fs_type_instance.json
+  ansible.builtin.file:
+    path: /opt/collectd_plugins/dict/fs_type_instance.json
+    state: touch
+
+- name: create fs_type_map.json
+  copy:
+    src: fs_type_map.json
+    dest: /opt/collectd_plugins/dict/fs_type_map.json
+
+
 - name: create vm_cpu plugin
   copy:
     src: vm_cpu.py
     dest: /opt/collectd_plugins/vm_cpu.py
+
+- name: create vm_mem plugin
+  copy:
+    src: vm_mem.py
+    dest: /opt/collectd_plugins/vm_mem.py
+
+- name: create vm_disk plugin
+  copy:
+    src: vm_disk.py
+    dest: /opt/collectd_plugins/vm_disk.py
+
 
 - name: add vm_cpu_* types to types.db
   blockinfile:
     path: /usr/share/collectd/types.db
     insertafter: EOF
     block: |
-      vm_cpu_num              value:GAUGE:U:U
+      ####
+      vm_cpu_num              value:GAUGE:0:U
       vm_cpu_usage            value:GAUGE:U:U
       vm_cpu_shortage         value:GAUGE:U:U
+      ####
+      vm_mem_size             value:GAUGE:U:U
+      vm_mem_usage            value:GAUGE:U:U
+      vm_mem_shortage         value:GAUGE:U:U
+      ####
+      ssd_disk_size            value:GAUGE:U:U
+      ssd_disk_throughput      value:GAUGE:U:U
+      ssd_disk_iops            value:GAUGE:U:U
+      ssd_disk_latency         value:GAUGE:U:U
+      ssd_disk_usage           value:GAUGE:U:U
+      hdd_disk_size            value:GAUGE:U:U
+      hdd_disk_throughput      value:GAUGE:U:U
+      hdd_disk_iops            value:GAUGE:U:U
+      hdd_disk_latency         value:GAUGE:U:U
+      hdd_disk_usage           value:GAUGE:U:U
+      sata_disk_size            value:GAUGE:U:U
+      sata_disk_throughput      value:GAUGE:U:U
+      sata_disk_iops            value:GAUGE:U:U
+      sata_disk_latency         value:GAUGE:U:U
+      sata_disk_usage           value:GAUGE:U:U
+      ####
+      vm_net_input_rate           value:GAUGE:U:U
+      vm_net_output_rate          value:GAUGE:U:U
+      vm_net_input_rate_provided  value:GAUGE:U:U
+      vm_net_output_rate_provided value:GAUGE:U:U
 
+
+- name: collectd bug fix
+  blockinfile:
+    path: /etc/default/collectd
+    insertafter: EOF
+    block: 'LD_PRELOAD=/usr/lib/python3.8/config-3.8-x86_64-linux-gnu/libpython3.8.so'
+      
 - name: restart collectd
   ansible.builtin.systemd:
     state: restarted
