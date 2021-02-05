@@ -27,6 +27,17 @@
     src: roles/telegraf/templates/telegraf.j2
     dest: /etc/telegraf/telegraf.conf
 
+- name: create /opt/telegraf_plugins
+  ansible.builtin.file:
+    path: /opt/telegraf_plugins
+    state: directory
+    mode: '0755'
+
+- name: create mcs.py plugin
+  copy:
+    src: mcs.py
+    dest: /opt/telegraf_plugins/mcs.py
+
 - name: restart telegraf
   ansible.builtin.systemd:
     state: restarted

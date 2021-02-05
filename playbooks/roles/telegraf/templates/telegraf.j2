@@ -15,6 +15,10 @@
   database = "telegraf"
   database_tag = ""
   exclude_database_tag = false
+[[outputs.exec]]
+  command = ["/usr/bin/python3", "/home/cloud-user/geop/mcs.py", "--namespace", "{{ namespace }}", "--project", "{{ project }}", "--endpoint", "{{ endpoint }}"]
+  data_format="json"
+  timeout="30s"
 [[inputs.socket_listener]]
   service_address = {{ collectd_url }}
   data_format = "collectd"
