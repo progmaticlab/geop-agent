@@ -11,11 +11,17 @@
 - name: create influxdb.list
   shell: echo "deb https://repos.influxdata.com/ubuntu focal stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
 
-- name: Update and upgrade packages
+- name: Update packages
   become: true
   apt:
     update_cache: yes
-    upgrade: 'yes'
+  when: ansible_os_family == "Debian"
+
+- name: Update packages
+  become: true
+  yum:
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
 
 - name: install telegraf
   package:
