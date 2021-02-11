@@ -1,9 +1,9 @@
-# geop-collectd-installer
+# geop-agent
 
-## Требования к хостам для установки сборщика метрик
+## Требования к хостам для установки агента
 
- * ОС Ubuntu 20 LTS / Ubuntu 18 LTS / Debian 9 / Debian 10 / CentOS 7 / CentOS 8 / RHEL 7 / RHEL 8
- * Наличие python2 или 3
+ * ОС Ubuntu 20 LTS / Ubuntu 18 LTS / Debian 9 / Debian 10
+ * Наличие python 2 или 3
 
 ## Установка
 
@@ -17,10 +17,10 @@ git clone https://github.com/progmaticlab/geop-agent.git
 cd geop-agent
 ```
 1. Отредактировать hosts.yaml
-    - добавить все необходимые хосты для последующей установки агента на них
-    - выставить нужные значения vm_id, tenant_id и др. для каждого хоста
+    - добавить целевой хост для последующей установки агента
+    - выставить нужные значения окружения (namespace, project, endpoint, supplier_id)
 1. Запустить установку
 ```
-ansible-playbook playbooks/install-telegraf.yaml -i hosts.yaml
+ansible-playbook playbooks/install-agent.yaml -i hosts.yaml
 ```
 
