@@ -12,16 +12,41 @@
   shell: echo "deb https://repos.influxdata.com/ubuntu focal stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
 
 - name: Update packages
-  become: true
   apt:
     update_cache: yes
   when: ansible_os_family == "Debian"
 
 - name: Update packages
-  become: true
   yum:
     update_cache: yes
   when: ansible_os_family == "RedHat"
+
+- name: install influxdb
+  package:
+    name: influxdb
+    state: present
+
+- name: restart influxdb
+  ansible.builtin.systemd:
+    state: started
+    daemon_reload: yes 
+    name: influxdb
+
+- name: Create types.db directory
+  ansible.builtin.file:
+    path: /usr/share/collectd
+    state: directory
+
+- name: Create types.db
+  ansible.builtin.file:
+    path: /usr/share/collectd/types.db
+    state: touch
+
+- name: add types into types.db
+  blockinfile:
+    path: /usr/share/collectd/types.db
+    block: "{{ lookup('file', 'types.db') }}"
+    marker: "# ANSIBLE MANAGED BLOCK"
 
 - name: install telegraf
   package:
@@ -50,14 +75,4 @@
     daemon_reload: yes
     name: telegraf
 
-- name: install influxdb
-  package:
-    name: influxdb
-    state: present
 
-- name: restart influxdb
-  ansible.builtin.systemd:
-    state: restarted
-    daemon_reload: yes 
-    name: influxdb
-  

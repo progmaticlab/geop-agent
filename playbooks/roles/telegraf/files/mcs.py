@@ -10,6 +10,8 @@ def metrics_by_ts(metrics):
     out = {}
     tset = set()
     for metric in metrics:
+        if metric['name'] == 'ballast_value':
+            continue
         ts = metric.pop('timestamp')
         if ts not in tset:
             out[ts] = [metric,]
@@ -86,6 +88,10 @@ def run(j, config):
         taggedlist = prepare_metrics(jts[ts])
         for tagged in taggedlist:
             labels = tagged[0]['tags']
+            labels.append({
+                'name': 'supplier_id',
+                'value': config.supplier
+            })
             ml = []
             for m in tagged:
                 m.pop('tags', None)
@@ -113,6 +119,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--namespace', action='store', type=str, required=True)
 parser.add_argument('--endpoint', action='store', type=str, required=True)
 parser.add_argument('--project', action='store', type=str, required=True)
+parser.add_argument('--supplier', action='store', type=str, required=True)
 parser.add_argument('--logfile', action='store', type=str, default='/var/log/mcs.log')
 args = parser.parse_args()
 
@@ -124,3 +131,4 @@ except Exception  as e:
     with open(args.logfile, 'a') as f:
         f.write(str(e))
         f.write(traceback.format_exc())
+

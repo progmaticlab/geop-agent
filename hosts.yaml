@@ -1,23 +1,14 @@
 all:
   hosts:
   children:
-    collectd:
+    agent:
       hosts:
-        127.0.0.1:
-      vars:
-        ansible_connection: local
-        telegraf_server: '"localhost"'
-        telegraf_server_port: '"25826"'
-        vm_id: 'vm_id_'
-        tenant_id: 'tenant_id_'
-    telegraf:
-      hosts:
-        127.0.0.1
-      vars:
-        ansible_connection: local
-        influxdb_url: '"http://127.0.0.1:8086"'
-        listen_at: '"udp://0.0.0.0:25826"'
-        namespace: 0c2b8049-976a-4de7-8e76-74d300dcdac9 
-        project: '0000000000000000000'
-        endpoint: http://213.219.214.155:9999/v1
+        172.16.112.51:
+          ansible_user: debian
+          influxdb_url: '"http://127.0.0.1:8086"'
+          listen_at: '"udp://0.0.0.0:25826"'
+          namespace: 0c2b8049-976a-4de7-8e76-74d300dcdac9 
+          project: '0000000000000000000'
+          supplier_id: 'f16b0120-6d13-11eb-8572-0800200c9a66'
+          endpoint: http://213.219.214.155:9999/v1
 

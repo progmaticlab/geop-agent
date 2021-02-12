@@ -1,7 +1,0 @@
----
-
-- name: setup telegraf and influxdb
-  hosts: telegraf
-  gather_facts: yes
-  roles:
-    - telegraf

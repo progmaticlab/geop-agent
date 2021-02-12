@@ -16,7 +16,7 @@
   database_tag = ""
   exclude_database_tag = false
 [[outputs.exec]]
-  command = ["/usr/bin/python3", "/opt/telegraf_plugins/mcs.py", "--namespace", "{{ namespace }}", "--project", "{{ project }}", "--endpoint", "{{ endpoint }}"]
+  command = ["/usr/bin/python3", "/opt/telegraf_plugins/mcs.py", "--supplier", "{{ supplier_id }}", "--namespace", "{{ namespace }}", "--project", "{{ project }}", "--endpoint", "{{ endpoint }}"]
   data_format="json"
   timeout="30s"
 [[inputs.socket_listener]]
