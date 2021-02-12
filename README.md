@@ -18,7 +18,16 @@
    ```
 1. Отредактировать hosts.yaml
     - добавить целевой хост для последующей установки агента
-    - выставить нужные значения окружения (namespace, project, endpoint, supplier_id)
+    - выставить нужные значения окружения
+    ```
+      hosts:
+        172.16.112.51:
+          ansible_user: debian
+          namespace: 0c2b8049-976a-4de7-8e76-74d300dcdac9
+          project: '0000000000000000000'
+          supplier_id: 'f16b0120-6d13-11eb-8572-0800200c9a66'
+          endpoint: http://213.219.214.155:9999/v1
+    ```
 1. Запустить установку
    ```
    ansible-playbook playbooks/install-agent.yaml -i hosts.yaml
