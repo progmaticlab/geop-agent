@@ -11,7 +11,7 @@
   hostname = ""
   omit_hostname = false
 [[outputs.influxdb]]
-  urls = [{{ influxdb_url }}]
+  urls = ["http://127.0.0.1:8086"]
   database = "telegraf"
   database_tag = ""
   exclude_database_tag = false
@@ -20,7 +20,7 @@
   data_format="json"
   timeout="30s"
 [[inputs.socket_listener]]
-  service_address = {{ listen_at }}
+  service_address = "udp://0.0.0.0:25826"
   data_format = "collectd"
   collectd_typesdb = ["/usr/share/collectd/types.db"]
 
