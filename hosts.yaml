@@ -5,6 +5,7 @@ all:
       hosts:
         172.16.112.51:
           ansible_user: debian
+          metric_buffer_size: 10000
           namespace: 0c2b8049-976a-4de7-8e76-74d300dcdac9
           project: 'fd09ff8c-d35a-48e3-b8f3-fbbfd53029b6'
           supplier_id: 0c2b8049-976a-4de7-8e76-74d300dcdac9
