@@ -5,8 +5,9 @@ all:
       hosts:
         172.16.112.51:
           ansible_user: debian
-          namespace: 0c2b8049-976a-4de7-8e76-74d300dcdac9 
-          project: '0000000000000000000'
-          supplier_id: 'f16b0120-6d13-11eb-8572-0800200c9a66'
-          endpoint: http://87.239.107.8/v1
+          namespace: 0c2b8049-976a-4de7-8e76-74d300dcdac9
+          project: 'fd09ff8c-d35a-48e3-b8f3-fbbfd53029b6'
+          supplier_id: 0c2b8049-976a-4de7-8e76-74d300dcdac9
+#          endpoint: http://87.239.107.8/v1
+          endpoint: http://172.16.110.170/private-consumer/v1
 

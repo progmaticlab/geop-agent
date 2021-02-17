@@ -10,6 +10,9 @@
   precision = ""
   hostname = ""
   omit_hostname = false
+[[processors.override]]
+  order = 1
+  namepass = ["ballast_value"]
 [[outputs.influxdb]]
   urls = ["http://127.0.0.1:8086"]
   database = "telegraf"

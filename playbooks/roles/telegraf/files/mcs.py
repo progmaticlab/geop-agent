@@ -13,6 +13,8 @@ def metrics_by_ts(metrics):
         if metric['name'] == 'ballast_value':
             continue
         ts = metric.pop('timestamp')
+        secs = ts % 60
+        ts = ts - secs
         if ts not in tset:
             out[ts] = [metric,]
             tset.add(ts)
@@ -44,13 +46,13 @@ def prepare_metrics(metriclist):
             'metricName': metric['tags']['type'],
             'value': metric['fields']['value'],
             'tags': [{
-                'name': 'host_name',
+                'name': 'resource_name',
                 'value': host_tag[0]
             }]
         }
         if len(host_tag)>1:
             m['tags'].append({
-                'name': 'vm_id',
+                'name': 'resource_id',
                 'value': host_tag[1]
             })
         if len(host_tag)>2:
@@ -110,8 +112,8 @@ def run(j, config):
             exit(3)
         if (r.status_code >= 400):
             with open(config.logfile, 'a') as f:
-                f.write(tosend)
-                f.write(r.status_code)
+                f.write(json.dumps(tosend))
+                f.write(str(r.status_code))
                 f.write(r.text)
             exit(1)
 
@@ -131,4 +133,5 @@ except Exception  as e:
     with open(args.logfile, 'a') as f:
         f.write(str(e))
         f.write(traceback.format_exc())
+    exit(-1)
 
