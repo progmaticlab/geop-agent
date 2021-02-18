@@ -13,6 +13,7 @@
 [[processors.override]]
   order = 1
   namepass = ["ballast_value"]
+  fielddrop = ["*"]
 [[outputs.influxdb]]
   urls = ["http://127.0.0.1:8086"]
   database = "telegraf"
