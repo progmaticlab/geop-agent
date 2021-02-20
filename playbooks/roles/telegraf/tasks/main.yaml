@@ -7,9 +7,11 @@
 
 - name: get influxdb.key
   shell: curl -s https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+  when: ansible_os_family == "Debian"
 
 - name: create influxdb.list
   shell: echo "deb https://repos.influxdata.com/ubuntu focal stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+  when: ansible_os_family == "Debian"
 
 - name: Update packages
   apt:
@@ -19,6 +21,22 @@
 - name: Update packages
   yum:
     update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Update nss
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - nss
+    - curl
+    - libcurl
+  when: ansible_os_family == "RedHat"
+
+- name: Add repository
+  copy:
+    src: influxdb.repo
+    dest: /etc/yum.repos.d/influxdb.repo
   when: ansible_os_family == "RedHat"
 
 - name: install influxdb

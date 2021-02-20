@@ -2,7 +2,7 @@
 
 ## Требования к хостам для установки агента
 
- * ОС Ubuntu 20 LTS / Ubuntu 18 LTS / Debian 9 / Debian 10
+ * ОС Ubuntu 20 LTS / Ubuntu 18 LTS / Debian 9 / Debian 10 / CentOS 7 / CentOS 8 / RHEL 7 / RHEL 8
  * Наличие python 2 или 3
 
 ## Установка
@@ -22,7 +22,7 @@
     ```
       hosts:
         172.16.112.51:
-          ansible_user: debian
+          ansible_user: centos
           namespace: 0c2b8049-976a-4de7-8e76-74d300dcdac9
           project: '0000000000000000000'
           supplier_id: 'f16b0120-6d13-11eb-8572-0800200c9a66'
